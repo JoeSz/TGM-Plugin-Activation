@@ -928,9 +928,12 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				if ( $this->is_tgmpa_complete() ) {
 					echo '<p>', sprintf( esc_html( $this->strings['complete'] ), '<a href="' . esc_url( self_admin_url() ) . '">' . esc_html( $this->strings['dashboard'] ) . '</a>' ), '</p>';
 					echo '<style type="text/css">#adminmenu .wp-submenu li.current { display: none !important; }</style>';
+
 				} else {
 					echo '<p><a href="', esc_url( $this->get_tgmpa_url() ), '" target="_parent">', esc_html( $this->strings['return'] ), '</a></p>';
 				}
+
+                do_action( 'exopite-tgm-after-user-action' );
 
 				return true;
 			} elseif ( isset( $this->plugins[ $slug ]['file_path'], $_GET['tgmpa-activate'] ) && 'activate-plugin' === $_GET['tgmpa-activate'] ) {
@@ -3724,9 +3727,17 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 								esc_html( $this->tgmpa->strings['complete'] ),
 								'<a href="' . esc_url( self_admin_url() ) . '">' . esc_html( $this->tgmpa->strings['dashboard'] ) . '</a>'
 							);
+
+                            do_action( 'exopite-tgm-complete' );
+
 						} else {
 							$update_actions['tgmpa_page'] = '<a href="' . esc_url( $this->tgmpa->get_tgmpa_url() ) . '" target="_parent">' . esc_html( $this->tgmpa->strings['return'] ) . '</a>';
+
+                            do_action( 'exopite-tgm-after-user-action' );
+
 						}
+
+
 
 						/**
 						 * Filter the list of action links available following bulk plugin installs/updates.
